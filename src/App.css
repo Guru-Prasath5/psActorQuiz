@@ -1,0 +1,126 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+  
+  
+    
+  }
+
+ 
+.turn > div {
+  height: 400px;
+}
+.turn{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.authorimage{
+  max-height: 100%;
+  width: 100%;
+}
+
+.answer{
+  background-color: #F0F7FD;
+  border-color: #d0e3f0;
+  margin-bottom: 20px;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #d0e3f0;
+  cursor: pointer;
+}
+.answer:hover{
+  background-color: #d0e3f0;
+}
+#footer{
+  display: block;
+  text-align: center;
+}
+.submitDiv{
+  text-align: center;
+  display: block;
+  padding-right: 10px;
+}
+.AddAuthor{
+  
+  width: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+  text-align: left;
+  display: block;
+  
+}
+
+  input:focus,button:focus{
+    outline: none;
+    
+    border-bottom-color: rgb(168, 230, 248);
+
+}
+
+.inputClass{
+  background-color:  #F0F7FD;
+  padding-bottom: 10px;
+  width: 95%;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-left:5px solid #d0e3f0;
+}
+.inputClasslast{
+  background-color:   #F0F7FD;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-left:5px solid  #d0e3f0;
+ 
+    padding-bottom: 10px;
+    padding-right: 10px;
+    width: 92%;
+    
+}
+.inputClassButton{
+  background-color: #F0F7FD;
+  border: solid #d0e3f0;
+  padding-top: -12px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  
+  
+}
+
+.inputDiv{
+  padding-bottom: 10px;
+}
+.addButton{
+  
+  text-align: center;
+  
+  
+  
+}
+.inputClassButton:hover{
+  
+  box-shadow: 10 5px 50px rgba(0, 0, 0, .5);
+}
+.btn:hover{
+  
+  box-shadow: 0 5px 50px rgba(0, 0, 0, .5);
+}
+.btn:active{
+  transform: translateY(+3px);
+  box-shadow: 0 3px 20px  rgba(0, 0, 0, .5);
+}
+
+.errorMsg{
+  text-align: center;
+  
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  color: rgba(252, 0, 0, 0.664);
+  padding-bottom: 10px;
+  
+
+ 
+  
+}
