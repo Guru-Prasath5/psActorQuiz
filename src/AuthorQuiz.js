@@ -36,9 +36,9 @@ function Turn({author, movies, answer,highlight,onAnswerSelected}){
     }</div></div>)
 }
 
-function Continue({continueHandler}){
-  return(<div className="form-group submitDiv " >
-    <button type="submit" onClick={()=>continueHandler()} className="btn btn-primary">Continue</button>
+function Continue({continueHandler , isCorrect}){
+  return(<div className="form-group submitDiv"  >
+    <button type="submit" onClick={()=>continueHandler()} disabled={!isCorrect} className="btn btn-primary">Continue</button>
   </div>)
 }
 function Footer(){
@@ -50,14 +50,22 @@ function Footer(){
     </div>
   )
 }
-function AuthorQuiz ({turnData,highlight,onAnswerSelected,continueHandler}) {
+function AuthorQuiz ({turnData,highlight,isCorrect,onAnswerSelected,continueHandler}) {
 
     return (
       <div className="container-fluid">
         <Hero/>
-        <p className="submitDiv"><Link to="/addAuthor" className="btn btn-primary ">Add Actor</Link></p>
+        <div className="row ">
+        <div className="col-4 offset-1">
+        <p className="submitDiv"><Link to="/addAuthor" className="btn btn-primary">Add Actor</Link></p>
+        </div>
+        <div className="col-6">
+        <Continue isCorrect={isCorrect} continueHandler={continueHandler}/>
+        </div>
+        </div>
+        
         <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}/>
-        <Continue continueHandler={continueHandler}/>
+        
         
         <Footer/>
         </div>

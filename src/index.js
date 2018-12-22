@@ -53,11 +53,11 @@ function getTurnData(author){
 }
 function onAnswerSelected(answerclicked){
    
-    const isCorrect = state.turnData.author.movies.some((movie)=> movie === answerclicked);
+    state.isCorrect = state.turnData.author.movies.some((movie)=> movie === answerclicked);
     const indexOfanswerclicked = state.turnData.movies.findIndex(i => {
         return i===answerclicked;
     });
-    if (isCorrect){
+    if (state.isCorrect){
         
         console.log("index"+indexOfanswerclicked)
         state.highlight[indexOfanswerclicked].col = 'rgba(59, 226, 44, 0.808)';
@@ -81,8 +81,10 @@ function resetState(){
             { id : '1' , col: '' },
             { id : '2' , col: '' },
             { id : '3' , col: '' },
-        ]
+        ],
+        isCorrect: false,
     }
+
 }
 function continueHandler(){
     console.log("continue");

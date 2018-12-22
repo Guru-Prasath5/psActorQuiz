@@ -1,7 +1,6 @@
 import React ,{Component} from 'react';
-
 import './App.css';
-import './bootstrap.min.css';
+
 
 class AddActor extends Component{
  
@@ -68,7 +67,7 @@ constructor(props){
         }
         )
         
-    }if(this.state.movies.length>3){
+    }else if(this.state.movies.length>3){
         this.setState({
             errorMsg:"only 4 movie per actor",
         }
