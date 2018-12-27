@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route , withRouter} from 'react-router-dom';
-import './index.css';
+import * as Redux from 'redux';
+import * as ReactRedux from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
 import AuthorQuiz from './AuthorQuiz';
 import AddAuthor from './AddAuthor';
 import * as serviceWorker from './serviceWorker';
 import {shuffle , sample } from 'underscore';
+import './index.css';
 
 const author = [
     {
@@ -51,30 +53,78 @@ function getTurnData(author){
         answer : answer,
     }
 }
-function onAnswerSelected(answerclicked){
-   
-    state.isCorrect = state.turnData.author.movies.some((movie)=> movie === answerclicked);
-    const indexOfanswerclicked = state.turnData.movies.findIndex(i => {
-        return i===answerclicked;
-    });
-    if (state.isCorrect){
+// function onAnswerSelected(state ,answerclicked){
+//    console.log(answerclicked);
+//     state.isCorrect = state.turnData.author.movies.some((movie)=> movie === answerclicked);
+//     const indexOfanswerclicked = state.turnData.movies.findIndex(i => {
+//         console.log("i-"+i);
+//         return i===answerclicked;
+//     });
+//     console.log("indexOfanswerclicked--"+indexOfanswerclicked);
+//     if (state.isCorrect){
         
-        console.log("index"+indexOfanswerclicked)
-        state.highlight[indexOfanswerclicked].col = 'rgba(59, 226, 44, 0.808)';
-    }else{
-        const indexOfanswer = state.turnData.movies.findIndex(i => {
-            return i===state.turnData.answer;
+//         console.log("index"+indexOfanswerclicked)
+//         state.highlight[indexOfanswerclicked].col = 'rgba(59, 226, 44, 0.808)';
+//     }else{
+//         console.log("answer="+state.turnData.answer);
+//         const indexOfanswer = state.turnData.movies.findIndex(i => {
+//             return i===state.turnData.answer;
+//         });
+//         state.highlight[indexOfanswerclicked].col = 'rgba(224, 46, 46, 0.8)';
+//         console.log("index"+indexOfanswer)
+//         state.highlight[indexOfanswer].col = 'rgba(59, 226, 44, 0.808)';
+//     }
+//     console.log("col0--"+state.highlight[0].col);
+//     console.log("col1--"+state.highlight[1].col);
+//     console.log("col2--"+state.highlight[2].col);
+//     console.log("col3--"+state.highlight[3].col);
+//     return state;
+// }
+
+
+function reducer(state =resetState(), action ){
+    switch(action.type ){
+        case 'onAnswerSelected' :
+         const isCorrect = state.turnData.author.movies.some((movie)=> movie === action.answer);
+         const highlight = [
+            { id : '0' , col: '' },
+            { id : '1' , col: '' },
+            { id : '2' , col: '' },
+            { id : '3' , col: '' },
+        ];
+            const indexOfanswerclicked = state.turnData.movies.findIndex(i => {
+                return i===action.answer;
+            });
+            
+            if (isCorrect){
+                highlight[indexOfanswerclicked].col = 'rgba(59, 226, 44, 0.808)';
+            }else{
+                const indexOfanswer = state.turnData.movies.findIndex(i => {
+                    return i===state.turnData.answer;
+                });
+                highlight[indexOfanswerclicked].col = 'rgba(224, 46, 46, 0.8)';
+                highlight[indexOfanswer].col = 'rgba(59, 226, 44, 0.808)';
+            }
+        return Object.assign({},state,{isCorrect : isCorrect,
+        highlight : highlight})
+        case 'continueHandler':
+        return continueHandler();
+        case 'Add_Actor':
+        return Object.assign({},state,{
+            author : state.author.push(action.addActor),
+            
         });
-        state.highlight[indexOfanswerclicked].col = 'rgba(224, 46, 46, 0.8)';
-        console.log("index"+indexOfanswer)
-        state.highlight[indexOfanswer].col = 'rgba(59, 226, 44, 0.808)';
-    }
-    render();
+        default:return state;
+    }    
+    
+    
 }
-let state = resetState();
+
+let store = Redux.createStore(reducer);
 
 function resetState(){
-    return state ={
+    return {
+        author : author,
         turnData: getTurnData(author),
         highlight: [
             { id : '0' , col: '' },
@@ -87,37 +137,37 @@ function resetState(){
 
 }
 function continueHandler(){
-    console.log("continue");
-     state = resetState();
-        render();
-}
-function App () {
-    return < AuthorQuiz {...state} onAnswerSelected={onAnswerSelected} 
-    continueHandler={continueHandler}/>;
+     return resetState();
+        
 }
 
 
-const AddAuthorFunc = withRouter(({history})=>
-     <AddAuthor addActor={(auth)=>{
-         console.log(auth);
-        author.push(auth);
-        history.push('/');
-    }} ></AddAuthor>
-);
 
-function render(){
+
+
+// const AddAuthorFunc = withRouter(({history})=>
+//      <AddAuthor addActor={(auth)=>{
+//          console.log(auth);
+//         author.push(auth);
+//         history.push('/');
+//     }} ></AddAuthor>
+// );
+
+
 ReactDOM.render(
 <BrowserRouter>
+<ReactRedux.Provider store = {store}>
 <React.Fragment>
-<Route exact path="/" component={App}/>
-<Route   path="/addAuthor" component={AddAuthorFunc} />
+<Route exact path="/" component={AuthorQuiz}/>
+<Route   path="/addAuthor" component={AddAuthor} />
 </React.Fragment>
+</ReactRedux.Provider>
 </BrowserRouter>
 , document.getElementById('root'));
 
-}
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-render();
+
 serviceWorker.unregister();

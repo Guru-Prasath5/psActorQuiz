@@ -1,4 +1,6 @@
 import React ,{Component} from 'react';
+import {connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import './App.css';
 
 
@@ -26,7 +28,6 @@ constructor(props){
 
  HandleTextChanges(e){
     const id = e.target.id;
-    console.log("id-"+id+" value-"+e.target.value)
      this.setState({
         
             [id] : e.target.value
@@ -124,8 +125,20 @@ render(){
 }
 }
 
-function AddAuthor({match, addActor}){
+function AddAuthor({addActor}){
     return (<AddActor addActor={addActor}></AddActor>)
 
 }
-export default AddAuthor;
+function mapDispatchToProps(dispatch, props){
+    return {
+        addActor:(addActor)=>{
+            
+            dispatch({type:"Add_Actor",addActor});
+            props.history.push('/');
+
+        },
+
+       
+    }
+}
+export default withRouter(connect(()=>{},mapDispatchToProps)(AddAuthor));

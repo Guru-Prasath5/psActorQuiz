@@ -1,8 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import {connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './App.css';
 import './bootstrap.min.css';
+
 
 
 
@@ -50,7 +52,27 @@ function Footer(){
     </div>
   )
 }
-function AuthorQuiz ({turnData,highlight,isCorrect,onAnswerSelected,continueHandler}) {
+function mapStateToProps(state){
+  return {
+    turnData: state.turnData,
+    highlight: state.highlight,
+    isCorrect: state.isCorrect
+
+  }
+}
+function mapDispatchToProps(dispatch){
+  return {
+    onAnswerSelected:(answer)=>{
+        dispatch({type:"onAnswerSelected",answer})
+    },
+    continueHandler:()=>{
+      dispatch({type:"continueHandler"})
+    }
+
+  }
+}
+const AuthorQuiz = connect(mapStateToProps , mapDispatchToProps)(
+function ({turnData,highlight,isCorrect,onAnswerSelected,continueHandler}) {
 
     return (
       <div className="container-fluid">
@@ -70,7 +92,7 @@ function AuthorQuiz ({turnData,highlight,isCorrect,onAnswerSelected,continueHand
         <Footer/>
         </div>
     );
-}
+})
 Turn.propTypes={
   author: propTypes.shape({
     name : propTypes.string.isRequired,
